@@ -1,6 +1,9 @@
 # pythonSocketCalculator
 Simple Socket Calculator
 
+## Requirements
+Python 3.x
+
 For testing locally: 
 1. run server.py 
 2. run client.py
