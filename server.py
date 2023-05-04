@@ -6,69 +6,58 @@ import threading
 print_lock = threading.Lock()
 
 
+# Validate expression
 def validade_message(message):
     # There must be no alphabetic characters
     for c in message:
         if c.isalpha():
             return False
     try:
+        # Try to evaluate
         value = eval(message)
         return value
     except SyntaxError:
+        # Evaluation failed
         return False
 
  
 # thread function
 def threaded(c):
     while True:
- 
-        # data received from client
+        # Data received from client
         data = c.recv(1024)
         if not data:
             print('Thread fechado')
-             
-            # lock released on exit
+            # Lock released on exit
             print_lock.release()
             break
- 
-        # validade operation
+        # Validade expression
         is_valid = validade_message(data.decode('utf-8'))
-        # send back answer
         if is_valid:
             message = str(is_valid)
         else:
-            message = "Operaçao nao valida!"
-
+            message = "Expressão inválida!"
+        # Send answer
         c.send(message.encode("utf-8"))
-    # connection closed
+    # Close connection
     c.close()
 
  
 def Main():
     host = ""
- 
-    # reserve a port on your computer
-    # in our case it is 12345 but it
-    # can be anything
     port = 12345
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((host, port))
-    print("socket conectado na porta", port)
- 
-    # put the socket into listening mode
+    print("Socket conectado na porta", port)
+    # Put the socket into listening mode
     s.listen(5)
-    print("socket escutando")
- 
-    # a forever loop until client wants to exit
+    print("Socket escutando")
     while True:
- 
-        # establish connection with client
+        # Establish connection with client
         c, addr = s.accept()
- 
-        # lock acquired by client
+        # Lock acquired by client
         print_lock.acquire()
-        print('Connected to :', addr[0], ':', addr[1])
- 
+        print(f'Connectado a : {addr[0]}:{addr[1]}')
         # Start a new thread and return its identifier
         start_new_thread(threaded, (c,))
     s.close()
