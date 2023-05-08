@@ -1,4 +1,12 @@
 # Simple Socket Calculator
+A simple calculator using sockets to calculate basic mathematical expressions.
+
+## Allowed operations:
+- Sum: `+`
+- Subtraction: `-`
+- Multiplication: `*`
+- Division: `/`
+- Exponentiation: `**`
 
 ## Requirements
 Python 3.x
@@ -22,3 +30,9 @@ For testing with different machines:
 3. run server.py on a machine (server) `python server.py`
 4. run client.py on another machine `python client.py`
 5. set Host=`the local ip of the server` and Port=12345
+
+## Valid inputs examples
+- 5 + 100
+- (39 + 21) - 13 * 2
+- 4 ** 2 - 14 / 2 <br>
+(Spaces are optional)
